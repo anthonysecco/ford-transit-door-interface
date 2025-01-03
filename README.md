@@ -11,6 +11,8 @@ It requires the following hardware:
 ### Disclaimer
 This guide has been tested on the North America 2021 Ford Transit, but is likely applicable other model years and geographies.  Some wiring colors will vary based on left-hand vs right-hand driven Transits.  Your mileage may vary.
 
+The end of this guide includes an extra section on start/stop inhibit.  This requires moving a wire to empty pin on the 43-pin connector and is only applicable to Transit with Stop/Stop engine capabilities.
+
 Lastly, please be advised that the Ford BEMM is not 100% accurate and should only be considered a guide, not the truth.  The following required testing to in order to get working.  
 
 # Introduction
@@ -82,7 +84,7 @@ If so, your flashing was successful.  Disconnect the UART, remove the wires and 
 
 ### Connect the 43-pin wiring hardness to the Shelly Plus RGBW PM
 
-With a pair of wire strippers, clip and stripe the following wires and connect them to the Shelly wiring terminals.  The stripped length should only be enough to minimize exposed wire outside the Shelly.  Connect the wires according to the table below
+With a pair of wire strippers, clip and strip the following wires and connect them to the Shelly wiring terminals.  The stripped length should only be enough to minimize exposed wire outside the Shelly.  Connect the wires according to the table below
 
 | Description | Shelly | Wire |
 |---|---|---|
@@ -92,9 +94,61 @@ With a pair of wire strippers, clip and stripe the following wires and connect t
 | Cargo Door State | I4 | Brown w/ Violet Stripe |
 | Lock Command | O1 | Gray w/ Yellow Stripe |
 | Unlock Command | O2 | Violet w/ Gray Stripe |
+| Start/Stop Inhibit | O3 | |
+| Unused | O4 | |
 
+With that completed we can head to the van.
 
+### Connecting the High Spec Connector
 
+Open the glovebox and empty it of contents.  Push in the sides so the glovebox falls forward exposing the innards of the what's behind the dash.  On the right side you'll find the High Spec connector and the butt connector.  Remove the latch and the butt connector.  Insert the wiring harness connector and pull the latch closed.  You're now connected to the van.  Now for power.
 
+### Powering the Shelly
 
+It is possible to power the shelly using pin #28 on the 43-pin High Spec Connector for +12v and ground the C33-H connector.  That said, the Shelly (err ESP32) draws ~100ma constantly.  This small, but consistent, draw will slowly drain the van battery.  It also requires Fuse F15 to be placed in always on mode.  As such, it's preferable to connect the Shelly's Postive and Ground terminal to the house battery system.  
 
+I simply ran an 18/2 wire under the floor near the center and then up and Behind the glovebox.  This was straight forward and completely hidden.  With the Shelly connected this way there's no worry to drain the van battery.  Switch the power source on and your Shelly should boot up with a flashing LED.
+
+### Final configuration and testing
+Using a laptop or phone connect to the Shelly access point.  It should be called "transit-door-interface" using password "12345678".  Once connected, it should lead you to a captive portal that you will use to connect it to the Wi-Fi network in the van.  Once connected, go to Home Assistant and ESPHome to adopt the device.
+
+Once adopted you should see the following sensors under the device:
+
+![image](https://github.com/user-attachments/assets/aefb2c9b-f73b-487b-82a6-0f716b084877)
+
+Open and Close the four doors to ensure the state change is captured.  The reading is instant.  Press lock / unlock buttons to ensure the locks trigger accordingly.
+
+You're done!
+
+# Conclusion
+
+There are a number of interesting automations that can include these sensors.  Some examples are below.
+
+- Turn on specific lights based on which door opens (driver, passenger, sliding, or cargo).
+- Turn off heat or AC if van doors open for greater than X minutes.
+- Send notification to mobile when door is opened you're away from the van.
+- Send Lock/Unlock commands from phone or smartwatch when you don't have keys on you.  Can be done with no cellular if you're nearby and on the van Wi-Fi.
+- Send Lock command as part of bedtime script
+
+### Limitations
+
+- The lock / unlock functions behavior like the buttons on the doors in the van.  It does not flash the lights on the outside nor enable the alarm.  If you want that behavior, use the FordPass app to lock/unlock.
+- It's not possible to determine the lock or unlock state.  It's only possible to trigger the commands to lock or unlock.  This is why the sensor is exposed as a button and not a lock.
+- The cargo doors are treated as one entity for open/closed.
+
+### Start/Stop Inhibit
+
+Start/Stop Inhibit can be useful to keep the engine running whilest the house battery is charging from DC-DC converters.  A simple script such as if battery >95%, then set to inhibit switch to true can be useful.  Also, some drivers may prefer to permanetly defeat start/stop out of personal preference.  Use the following to enable this feature.
+
+To enable Start/Stop inhibit, you'll need to:
+- Move an unused wire in the 43-pin connector and re-pin it to position #24.
+- Connect that wire to O3 on the Shelly.
+- Switch the Inhibit switch to 'on' in Home Assistant to Inhibit Start/Stop
+
+### Engine Monitoring
+
+It's possible to monitor the Transit Engine On/Off state by monitoring ground on the Brown w/ Yellow Stripe wire (pin #29).  By adding a Shelly Plus Add-on, I believe this could be connected to the Available GPIO pin on the Shelly.  Additionally, it's possible to add another Shelly Plus RGBW PM or a Shelly i4 DC for this purpose.
+
+### Feedback
+
+If you have feedback or suggestions, don't hesitate to reachout.
