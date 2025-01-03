@@ -37,7 +37,7 @@ Let's start at your desk.  Grab the following:
 - Your laptop
 - A cup of coffee or tea.
 
-### Connect the Shelly to UART
+### Connect the Shelly to UART Adapter
 The Shelly Plus RGBW PM has a small 7-pin connector on the bottom.  This interface exposes the UART interface of the ESP32.  We need to connect to this interface to flash the Shelly.  Unfortnately the pins on this connector are extremely small, 1.27mm to be exact.  Your run of the mill 2.54m jumper pin won't fit.  Instead you'll need to subtitute the pin with a thin solid wire to act a jumper.  Fortunately there are two household items that can work:
 
 - A cat5e cable with solid wire cores.
@@ -55,8 +55,46 @@ I opted for the second option.  Strip the twisty tie and cut into 1" lengths for
 
 Use a jumper wire and tie GPIO0 to Ground.  I simply ran a small cable to the ground terminal on the Shelly.  This is needed at the top of boot to place the ESP32 into the bootloader.
 
-Connect the remaining wires to your UART adapter.  Remember to transpose the TX/RX wires:
+Connect the remaining four wires to your UART adapter.  Remember to transpose the TX/RX wires:
 
+- UART Ground >> Shelly Ground
+- UART Positive >> Shelly Positive
 - UART TX >> Shelly RX
 - UART RX >> Shelly TX
+
+No other wires are needed.  The UART adapter will power the ESP32 on its own.
+
+### Flash the Shelly with ESPHome
+
+With everything wired, connect the UART adapater to your PC.  This will power the Shelly.  If you have grounded your GPIO0 pin, the LED on the Shelly will be solid on (not flashing).  This indicates the bootloader is running and ready for flashing.
+
+On Home Assistant, create a new device in the ESPHome compiler.  Use the YAML provided here:
+
+When saving, select "Plug into this computer" and follow the instructions.  Download the bin file, then head to "Open ESPHome Web" to flash.  Click connect, select the COM port associated to your UART adapter.  If you did everything right, you'll end up with a screen below:
+
+![image](https://github.com/user-attachments/assets/3d805851-3c22-4ff4-92c3-ff66259eda01)
+
+Select "Install" and select the bin you just downloaded.  It will begin flashing and all goes well it'll take 2 minutes to complete.  If you run into an issue, make sure your RX/TX pins are correct.
+
+Once complete, remove the ground wire on GPIO0.  Then, remove and reconnect the USB to UART adapter.  This will power cycle the Shelly.  Upon start, the LED should be flashing indicating the AP is up.  Using your computer or phone, check to see if the network "transit-door-interface" is being broadcasted.  
+
+If so, your flashing was successful.  Disconnect the UART, remove the wires and pins from the Shelly and proceed to the next step.
+
+### Connect the 43-pin wiring hardness to the Shelly Plus RGBW PM
+
+With a pair of wire strippers, clip and stripe the following wires and connect them to the Shelly wiring terminals.  The stripped length should only be enough to minimize exposed wire outside the Shelly.  Connect the wires according to the table below
+
+| Description | Shelly | Wire |
+|---|---|---|
+| Driver Door State | I1 | Green w/ Violet Stripe |
+| Passenger Door State | I2 | White |
+| Sliding Door State | I3 | Yellow |
+| Cargo Door State | I4 | Brown w/ Violet Stripe |
+| Lock Command | O1 | Gray w/ Yellow Stripe |
+| Unlock Command | O2 | Violet w/ Gray Stripe |
+
+
+
+
+
 
