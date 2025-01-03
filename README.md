@@ -1,3 +1,5 @@
+![image](https://github.com/user-attachments/assets/6a4d9cd4-d6eb-42c7-84df-bf4d9a7fcf2f)
+
 # Ford Transit Door Interface
 
 This readme will walk you through connecting a Shelly Plus RGBW PM to the Ford Transit's 43-in High Spec Connector to read door open/close state and issue Lock/Unlock commands.  Thie enables the user to integrate door states and lock/unlock commands into Home Assistant for further automation and visability.  ESPHome is loaded onto the Shelly with the appropiate settings to read door states and issue lock/unlock commands.
@@ -45,7 +47,7 @@ The Shelly Plus RGBW PM has a small 7-pin connector on the bottom.  This interfa
 - A cat5e cable with solid wire cores.
 - A twisty tie
 
-I opted for the second option.  Strip the twisty tie and cut into 1" lengths for a total of 5 pieces. Those into the following:
+I opted for the second option.  Strip the twisty tie and cut into 1" lengths for a total of 5 pieces those into the following:
 
 - GND (Ground)
 - GPIO0
@@ -54,6 +56,12 @@ I opted for the second option.  Strip the twisty tie and cut into 1" lengths for
 - U0TXD (TX)
 
 ![image](https://github.com/user-attachments/assets/c2aa4c67-f9d2-4efa-b1b7-a312b57776d6)
+
+![image](https://github.com/user-attachments/assets/c34fa532-e169-4bd5-a205-1e519cbb339f)
+
+![image](https://github.com/user-attachments/assets/d22dcd99-5895-465c-8628-ee734b7365b4)
+
+![image](https://github.com/user-attachments/assets/fb0b5943-5261-49a8-bf37-78ea793c59a5)
 
 Use a jumper wire and tie GPIO0 to Ground.  I simply ran a small cable to the ground terminal on the Shelly.  This is needed at the top of boot to place the ESP32 into the bootloader.
 
@@ -102,6 +110,8 @@ With that completed we can head to the van.
 ### Connecting the High Spec Connector
 
 Open the glovebox and empty it of contents.  Push in the sides so the glovebox falls forward exposing the innards of the what's behind the dash.  On the right side you'll find the High Spec connector and the butt connector.  Remove the latch and the butt connector.  Insert the wiring harness connector and pull the latch closed.  You're now connected to the van. 
+
+![image](https://github.com/user-attachments/assets/9a01ca86-5a35-4ee5-a23d-80de50b17342)
 
 ### Powering the Shelly
 
