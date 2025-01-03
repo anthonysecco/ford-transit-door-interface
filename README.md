@@ -70,7 +70,7 @@ No other wires are needed.  The UART adapter will power the ESP32 on its own.
 
 With everything wired, connect the UART adapater to your PC.  This will power the Shelly.  If you have grounded your GPIO0 pin, the LED on the Shelly will be solid on (not flashing).  This indicates the bootloader is running and ready for flashing.
 
-On Home Assistant, create a new device in the ESPHome compiler.  Use the YAML provided here:
+On Home Assistant, create a new device in the ESPHome compiler.  Use the YAML provided here: https://github.com/anthonysecco/ford-transit-door-interface/blob/main/transit-door-interface.yaml
 
 When saving, select "Plug into this computer" and follow the instructions.  Download the bin file, then head to "Open ESPHome Web" to flash.  Click connect, select the COM port associated to your UART adapter.  If you did everything right, you'll end up with a screen below:
 
