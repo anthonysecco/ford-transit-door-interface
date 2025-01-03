@@ -1,0 +1,150 @@
+## Written by Anthony Secco
+# To be used with Shelly Plus RGBW PM and a Ford Transit Van.
+
+# Board Configuration
+################################################################################
+esphome:
+  name: "transit-door-interface"
+  friendly_name: "Transit Door Interface"
+
+esp32:
+  board: esp32dev
+  framework:
+    type: esp-idf
+
+# Throttles writing parameters to the flash memory to reduce memory wear.
+preferences:
+  flash_write_interval: 15min
+
+# Enable logging
+################################################################################
+logger:
+
+# Enable Home Assistant API
+################################################################################
+api:
+
+# Over-The-Air Config
+################################################################################
+ota:
+  - platform: esphome
+
+# Wi-Fi Config
+################################################################################
+wifi:
+  # Sets up Wi-Fi access point if Wi-Fi client isn't connected.
+  ap:
+    password: "12345678"
+
+# Sets up captive portal so user can connect to their local Wi-Fi Network.
+captive_portal:
+
+#LED Config
+################################################################################
+status_led:
+  pin: GPIO14
+
+#Outputs
+################################################################################
+output:  
+  # W Output - Unused
+  - platform: ledc
+    pin: GPIO4
+    id: pwm_w
+    frequency: 19531
+
+# Buttons
+################################################################################
+button:
+  - platform: template
+    id: lock_button
+    name: "Lock Doors"
+    on_press:
+      - switch.turn_on: output_r
+
+  - platform: template
+    id: unlock_button
+    name: "Unlock Doors"
+    on_press:
+      - switch.turn_on: output_g
+
+# Switches
+################################################################################
+switch:
+  # Output R - Momentary Lock Button
+  - platform: gpio
+    id: output_r
+    name: Output R
+    icon: mdi:car-door-lock
+    pin: 25
+    restore_mode: ALWAYS_OFF
+    internal: True
+    on_turn_on: 
+      - delay: 500ms
+      - switch.turn_off: output_r
+      - logger.log: Doors Locked
+
+  # Output G - Momentary Unlock Button
+  - platform: gpio
+    id: output_g
+    name: Output G
+    icon: mdi:car-door-lock-open
+    pin: 26
+    restore_mode: ALWAYS_OFF
+    internal: True
+    on_turn_on: 
+      - delay: 500ms
+      - switch.turn_off: output_g
+      - logger.log: Doors Unlocked
+
+  # Output B - Start/Stop Inhibit
+  - platform: gpio
+    id: output_b
+    name: "Start/Stop Inhibit"
+    icon: mdi:refresh-auto
+    pin: 27
+    restore_mode: ALWAYS_OFF
+    internal: False
+    on_turn_on: 
+      - logger.log: Start/Stop Inhibit - Enabled
+    on_turn_off: 
+      - logger.log: Start/Stop Inhibit - Disabled
+
+# Binary Sensors
+################################################################################
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO36
+      inverted: False
+    name: "Driver Door"
+    device_class: door
+    filters:
+      - delayed_on_off: 10ms
+
+  - platform: gpio
+    pin:
+      number: GPIO37
+      inverted: False
+    name: "Passenger Door"
+    device_class: door
+    filters:
+      - delayed_on_off: 10ms
+
+  - platform: gpio
+    pin:
+      number: GPIO38
+      inverted: True
+    name: "Sliding Door"
+    device_class: door
+    filters:
+      - delayed_on_off: 10ms
+
+  - platform: gpio
+    pin:
+      number: GPIO39
+      inverted: False
+    name: "Cargo Doors"
+    device_class: door
+    filters:
+      - delayed_on_off: 10ms
