@@ -23,6 +23,40 @@ The Shelly Plus RGBW PM is an ESP32-based device with 4 inputs and 4 outputs.  T
 Given this hardware, we can read the door open/closed states on all the van doors (driver/passenger/sliding/cargo) independently using the 4 inputs.  Additiionally, we can trigger lock and unlock commands by ground switching the lock and unlock signal lines.
 
 ### Software
-The default Shelly with the base Home Assistant configuration can perform these functions, but it requires workarounds and helpers that make it a less than ideal solution.  Instead, ESPHome provides additional safeguards and deterministic settings that ensure the device reads and issues commands according to specifics of the High Spec Connector.  ESPHome can present these sensors correctly to Home Assistant.
+The default Shelly with the base Home Assistant configuration can perform these functions, but it requires workarounds and helpers that make it a less than ideal solution.  ESPHome provides additional safeguards and deterministic settings that ensure the device reads and issues commands according to specifics of the High Spec Connector.  ESPHome can present these sensors correctly to Home Assistant. 
+
+This guide will take you through flashing the Shelly and installing it into the van.  Details on how ESPHome runs on the Shelly Plus RGBWPM are found here: https://devices.esphome.io/devices/Shelly-Plus-RGBW-PM
 
 # Installation
+Let's start at your desk.  Grab the following:
+
+- Shelly RGBW PM
+- 43-pin wiring harness
+- USB-to-UART Serial adapter.  If you don't have a serial adapter, I use this one: https://www.amazon.com/dp/B07WX2DSVB
+- A small flathead screw drawer (for the wire terminals)
+- Your laptop
+- A cup of coffee or tea.
+
+### Connect the Shelly to UART
+The Shelly Plus RGBW PM has a small 7-pin connector on the bottom.  This interface exposes the UART interface of the ESP32.  We need to connect to this interface to flash the Shelly.  Unfortnately the pins on this connector are extremely small, 1.27mm to be exact.  Your run of the mill 2.54m jumper pin won't fit.  Instead you'll need to subtitute the pin with a thin solid wire to act a jumper.  Fortunately there are two household items that can work:
+
+- A cat5e cable with solid wire cores.
+- A twisty tie
+
+I opted for the second option.  Strip the twisty tie and cut into 1" lengths for a total of 5 pieces. Those into the following:
+
+- GND (Ground)
+- GPIO0
+- +3.3_ESP (Positive)
+- U0RXD (RX)
+- U0TXD (TX)
+
+![image](https://github.com/user-attachments/assets/c2aa4c67-f9d2-4efa-b1b7-a312b57776d6)
+
+Use a jumper wire and tie GPIO0 to Ground.  I simply ran a small cable to the ground terminal on the Shelly.  This is needed at the top of boot to place the ESP32 into the bootloader.
+
+Connect the remaining wires to your UART adapter.  Remember to transpose the TX/RX wires:
+
+- UART TX >> Shelly RX
+- UART RX >> Shelly TX
+
