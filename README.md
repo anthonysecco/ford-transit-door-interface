@@ -9,11 +9,11 @@ It requires the following hardware:
 - USB-to-UART Serial Adapter
 
 ### Disclaimer
-This guide has been tested on the North America 2021 Ford Transit, but is likely applicable other model years and geographies.  Some wiring colors will vary based on left-hand vs right-hand driven Transits.  Your mileage may vary.
+This guide has been tested on the North America 2021 Ford Transit, but is likely applicable other model years and geographies.  Some wiring colors will vary based on left-hand vs right-hand driven Transits.
 
 The end of this guide includes an extra section on start/stop inhibit.  This requires moving a wire to empty pin on the 43-pin connector and is only applicable to Transit with Stop/Stop engine capabilities.
 
-Lastly, please be advised that the Ford BEMM is not 100% accurate and should only be considered a guide, not the truth.  The following required testing to in order to get working.  
+Lastly, please be advised that the Ford BEMM is not 100% accurate and should only be considered a guide, not the truth.  The following required testing to in order to get working.  You may want to do the same.
 
 # Introduction
 
@@ -22,10 +22,10 @@ The ability to monitor door open/closed state in Home Assistant can allow the us
 ### Hardware
 The Shelly Plus RGBW PM is an ESP32-based device with 4 inputs and 4 outputs.  The inputs can be triggered with a ground and the outputs are MOSFET ground-switched with 4 amps of output per channel and 10 amps concurrently across the four outputs.  More details can be found here: https://kb.shelly.cloud/knowledge-base/shelly-plus-rgbw-pm
 
-Given this hardware, we can read the door open/closed states on all the van doors (driver/passenger/sliding/cargo) independently using the 4 inputs.  Additiionally, we can trigger lock and unlock commands by ground switching the lock and unlock signal lines.
+Given this hardware, we can read the door open/closed states on all the van doors (driver/passenger/sliding/cargo) independently using the 4 inputs.  Additiionally, we can trigger lock and unlock commands by ground switching the lock and unlock signal lines for 500ms.
 
 ### Software
-The default Shelly with the base Home Assistant configuration can perform these functions, but it requires workarounds and helpers that make it a less than ideal solution.  ESPHome provides additional safeguards and deterministic settings that ensure the device reads and issues commands according to specifics of the High Spec Connector.  ESPHome can present these sensors correctly to Home Assistant. 
+The default Shelly with the base Home Assistant integration can perform these functions however it requires workarounds and helpers that make it a less than ideal solution.  ESPHome provides additional safeguards and deterministic settings that ensure the device reads and issues commands according to specifics of the High Spec Connector.  ESPHome can present these sensors correctly to Home Assistant making it the preferred solution.
 
 This guide will take you through flashing the Shelly and installing it into the van.  Details on how ESPHome runs on the Shelly Plus RGBWPM are found here: https://devices.esphome.io/devices/Shelly-Plus-RGBW-PM
 
@@ -101,7 +101,7 @@ With that completed we can head to the van.
 
 ### Connecting the High Spec Connector
 
-Open the glovebox and empty it of contents.  Push in the sides so the glovebox falls forward exposing the innards of the what's behind the dash.  On the right side you'll find the High Spec connector and the butt connector.  Remove the latch and the butt connector.  Insert the wiring harness connector and pull the latch closed.  You're now connected to the van.  Now for power.
+Open the glovebox and empty it of contents.  Push in the sides so the glovebox falls forward exposing the innards of the what's behind the dash.  On the right side you'll find the High Spec connector and the butt connector.  Remove the latch and the butt connector.  Insert the wiring harness connector and pull the latch closed.  You're now connected to the van. 
 
 ### Powering the Shelly
 
@@ -138,7 +138,7 @@ There are a number of interesting automations that can include these sensors.  S
 
 ### Start/Stop Inhibit
 
-Start/Stop Inhibit can be useful to keep the engine running whilest the house battery is charging from DC-DC converters.  A simple script such as if battery >95%, then set to inhibit switch to true can be useful.  Also, some drivers may prefer to permanetly defeat start/stop out of personal preference.  Use the following to enable this feature.
+Start/Stop Inhibit can be useful to keep the engine running at idle whilest the house battery is charging from DC-DC converters.  A simple script such as if battery >95%, then set to inhibit switch to true can be useful.  Also, some drivers may prefer to permanetly defeat start/stop out of personal preference.  Do the following to enable this feature.
 
 To enable Start/Stop inhibit, you'll need to:
 - Move an unused wire in the 43-pin connector and re-pin it to position #24.
@@ -147,7 +147,7 @@ To enable Start/Stop inhibit, you'll need to:
 
 ### Engine Monitoring
 
-It's possible to monitor the Transit Engine On/Off state by monitoring ground on the Brown w/ Yellow Stripe wire (pin #29).  By adding a Shelly Plus Add-on, I believe this could be connected to the Available GPIO pin on the Shelly.  Additionally, it's possible to add another Shelly Plus RGBW PM or a Shelly i4 DC for this purpose.
+It's possible to monitor the Transit Engine On/Off state by monitoring ground on the Brown w/ Yellow Stripe wire (pin #29).  Unfortunately all inputs are utilized by the doors.  By adding a Shelly Plus Add-on, I believe this could be connected to the Available GPIO pin on the Shelly.  Additionally, it's possible to add another Shelly Plus RGBW PM or a Shelly i4 DC for this purpose.
 
 ### Feedback
 
