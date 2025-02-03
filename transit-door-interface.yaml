@@ -47,11 +47,17 @@ status_led:
 #Outputs
 ################################################################################
 output:  
+  # B Output - Unused
+  - platform: ledc
+    pin: GPIO27
+    id: pwm_w
+    frequency: 19531
   # W Output - Unused
   - platform: ledc
     pin: GPIO4
     id: pwm_w
     frequency: 19531
+
 
 # Buttons
 ################################################################################
@@ -96,19 +102,6 @@ switch:
       - delay: 500ms
       - switch.turn_off: output_g
       - logger.log: Doors Unlocked
-
-  # Output B - Start/Stop Inhibit
-  - platform: gpio
-    id: output_b
-    name: "Start/Stop Inhibit"
-    icon: mdi:refresh-auto
-    pin: 27
-    restore_mode: ALWAYS_OFF
-    internal: False
-    on_turn_on: 
-      - logger.log: Start/Stop Inhibit - Enabled
-    on_turn_off: 
-      - logger.log: Start/Stop Inhibit - Disabled
 
 # Binary Sensors
 ################################################################################
