@@ -102,7 +102,7 @@ With a pair of wire strippers, clip and strip the following wires and connect th
 | Cargo Door State | I4 | Brown w/ Violet Stripe |
 | Lock Command | O1 | Gray w/ Yellow Stripe |
 | Unlock Command | O2 | Violet w/ Gray Stripe |
-| Start/Stop Inhibit | O3 | |
+| Unused | O3 | |
 | Unused | O4 | |
 
 With that completed we can head to the van.
@@ -145,15 +145,6 @@ There are a number of interesting automations that can include these sensors.  S
 - The lock / unlock functions behavior like the buttons on the doors in the van.  It does not flash the lights on the outside nor enable the alarm.  If you want that behavior, use the FordPass app to lock/unlock.
 - It's not possible to determine the lock or unlock state.  It's only possible to trigger the commands to lock or unlock.  This is why the sensor is exposed as a button and not a lock.
 - The cargo doors are treated as one entity for open/closed.
-
-### Start/Stop Inhibit
-
-Start/Stop Inhibit can be useful to keep the engine running at idle whilest the house battery is charging from DC-DC converters.  A simple script such as if battery >95%, then set to inhibit switch to true can be useful.  Also, some drivers may prefer to permanetly defeat start/stop out of personal preference.  Do the following to enable this feature.
-
-To enable Start/Stop inhibit, you'll need to:
-- Move an unused wire in the 43-pin connector and re-pin it to position #24.
-- Connect that wire to O3 on the Shelly.
-- Switch the Inhibit switch to 'on' in Home Assistant to Inhibit Start/Stop
 
 ### Engine Monitoring
 
