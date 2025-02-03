@@ -50,7 +50,7 @@ output:
   # B Output - Unused
   - platform: ledc
     pin: GPIO27
-    id: pwm_w
+    id: pwm_b
     frequency: 19531
   # W Output - Unused
   - platform: ledc
