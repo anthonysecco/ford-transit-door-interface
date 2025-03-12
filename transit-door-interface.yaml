@@ -41,6 +41,26 @@ status_led:
 
 # Sensors
 ################################################################################
+sensor:
+  # Wi-Fi Diagnostics
+  - platform: wifi_signal
+    name: "WiFi Signal dB"
+    id: wifi_signal_db
+    update_interval: 60s
+    entity_category: "diagnostic"
+    disabled_by_default: True
+    icon: "mdi:wifi"
+
+  - platform: copy
+    source_id: wifi_signal_db
+    name: "WiFi Signal Percent"
+    filters:
+      - lambda: return min(max(2 * (x + 100.0), 0.0), 100.0);
+    unit_of_measurement: "%"
+    entity_category: "diagnostic"
+    disabled_by_default: True
+    icon: "mdi:wifi-strength-4"
+
 binary_sensor:
   - platform: gpio
     pin:
