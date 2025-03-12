@@ -15,7 +15,9 @@ This guide has been tested on the North America 2021 Ford Transit, but is likely
 
 The end of this guide includes an extra section on start/stop inhibit.  This requires moving a wire to empty pin on the 43-pin connector and is only applicable to Transit with Stop/Stop engine capabilities.
 
-Lastly, please be advised that the Ford BEMM is not 100% accurate and should only be considered a guide, not the truth.  The following required testing to in order to get working.  You may want to do the same.
+Please be advised that the Ford BEMM is not 100% accurate and should only be considered a guide, not the truth.  The following required testing to in order to get working.  You may want to do the same.
+
+Lastly, I'm not responible for any damages caused by following this guide.  Caveat emptor.
 
 # Introduction
 
@@ -153,3 +155,13 @@ It's possible to monitor the Transit Engine On/Off state by monitoring ground on
 ### Feedback
 
 If you have feedback or suggestions, don't hesitate to reachout.
+
+# Changelog
+
+11-03-2025
+- Standardized Wi-Fi config to secret.yaml
+- Consolidated comments to reduce config length
+- Removed unnecessary configuration on flash write interval
+- Added log events to door state changes
+- Added icons to all sensors
+- Added Wi-Fi diagnostics (disabled by default)
