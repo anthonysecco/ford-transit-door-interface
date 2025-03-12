@@ -139,7 +139,7 @@ switch:
     on_turn_on: 
       - delay: 500ms
       - switch.turn_off: output_r
-      - logger.log: Doors Locked
+      - logger.log: Doors Locked!
 
   - platform: gpio
     id: output_g # Output G - Momentary Unlock Button
@@ -151,4 +151,4 @@ switch:
     on_turn_on: 
       - delay: 500ms
       - switch.turn_off: output_g
-      - logger.log: Doors Unlocked
+      - logger.log: Doors Unlocked!
