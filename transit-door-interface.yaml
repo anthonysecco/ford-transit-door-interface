@@ -119,12 +119,14 @@ button:
   - platform: template
     id: lock_button
     name: "Lock Doors"
+    icon: "mdi:lock"
     on_press:
       - switch.turn_on: output_r
 
   - platform: template
     id: unlock_button
     name: "Unlock Doors"
+    icon: "mdi:lock-open"
     on_press:
       - switch.turn_on: output_g
 
