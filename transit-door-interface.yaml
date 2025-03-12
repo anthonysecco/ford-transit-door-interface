@@ -12,55 +12,109 @@ esp32:
   framework:
     type: esp-idf
 
-# Throttles writing parameters to the flash memory to reduce memory wear.
-preferences:
-  flash_write_interval: 15min
+# Connectivity
+################################################################################
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+#  manual_ip:
+#    static_ip: 192.168.1.50
+#    gateway: 192.168.1.1
+#    subnet: 255.255.255.0
+#    dns1: 192.168.1.1
+  ap: # Backup Access Point if Wi-Fi is unavailable
+    password: "12345678"
 
-# Enable logging
+captive_portal:
+
+# Core Services
 ################################################################################
 logger:
 
-# Enable Home Assistant API
-################################################################################
 api:
 
-# Over-The-Air Config
-################################################################################
 ota:
   - platform: esphome
 
-# Wi-Fi Config
-################################################################################
-wifi:
-  # Sets up Wi-Fi access point if Wi-Fi client isn't connected.
-  ap:
-    password: "12345678"
-
-# Sets up captive portal so user can connect to their local Wi-Fi Network.
-captive_portal:
-
-#LED Config
-################################################################################
 status_led:
   pin: GPIO14
+
+# Sensors
+################################################################################
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO36
+      inverted: False
+    name: "Driver Door"
+    device_class: door
+    filters:
+      - delayed_on_off: 10ms
+    on_press:
+      then:
+        - logger.log: "Driver Door opened!"
+    on_release:
+      then:
+        - logger.log: "Driver Door closed!"
+
+  - platform: gpio
+    pin:
+      number: GPIO37
+      inverted: False
+    name: "Passenger Door"
+    device_class: door
+    filters:
+      - delayed_on_off: 10ms
+    on_press:
+      then:
+        - logger.log: "Passenger Door opened!"
+    on_release:
+      then:
+        - logger.log: "Passenger Door closed!"
+
+  - platform: gpio
+    pin:
+      number: GPIO38
+      inverted: True
+    name: "Sliding Door"
+    device_class: door
+    filters:
+      - delayed_on_off: 10ms
+    on_press:
+      then:
+        - logger.log: "Sliding Door opened!"
+    on_release:
+      then:
+        - logger.log: "Sliding Door closed!"
+
+  - platform: gpio
+    pin:
+      number: GPIO39
+      inverted: False
+    name: "Cargo Doors"
+    device_class: door
+    filters:
+      - delayed_on_off: 10ms
+    on_press:
+      then:
+        - logger.log: "Cargo Doors opened!"
+    on_release:
+      then:
+        - logger.log: "Cargo Doors closed!"
 
 #Outputs
 ################################################################################
 output:  
-  # B Output - Unused
   - platform: ledc
     pin: GPIO27
-    id: pwm_b
+    id: pwm_b # B Output - Unused
     frequency: 19531
-  # W Output - Unused
+  
   - platform: ledc
     pin: GPIO4
-    id: pwm_w
+    id: pwm_w # W Output - Unused
     frequency: 19531
 
-
-# Buttons
-################################################################################
 button:
   - platform: template
     id: lock_button
@@ -74,12 +128,9 @@ button:
     on_press:
       - switch.turn_on: output_g
 
-# Switches
-################################################################################
 switch:
-  # Output R - Momentary Lock Button
   - platform: gpio
-    id: output_r
+    id: output_r # Output R - Momentary Lock Button
     name: Output R
     icon: mdi:car-door-lock
     pin: 25
@@ -90,9 +141,8 @@ switch:
       - switch.turn_off: output_r
       - logger.log: Doors Locked
 
-  # Output G - Momentary Unlock Button
   - platform: gpio
-    id: output_g
+    id: output_g # Output G - Momentary Unlock Button
     name: Output G
     icon: mdi:car-door-lock-open
     pin: 26
@@ -102,42 +152,3 @@ switch:
       - delay: 500ms
       - switch.turn_off: output_g
       - logger.log: Doors Unlocked
-
-# Binary Sensors
-################################################################################
-binary_sensor:
-  - platform: gpio
-    pin:
-      number: GPIO36
-      inverted: False
-    name: "Driver Door"
-    device_class: door
-    filters:
-      - delayed_on_off: 10ms
-
-  - platform: gpio
-    pin:
-      number: GPIO37
-      inverted: False
-    name: "Passenger Door"
-    device_class: door
-    filters:
-      - delayed_on_off: 10ms
-
-  - platform: gpio
-    pin:
-      number: GPIO38
-      inverted: True
-    name: "Sliding Door"
-    device_class: door
-    filters:
-      - delayed_on_off: 10ms
-
-  - platform: gpio
-    pin:
-      number: GPIO39
-      inverted: False
-    name: "Cargo Doors"
-    device_class: door
-    filters:
-      - delayed_on_off: 10ms
