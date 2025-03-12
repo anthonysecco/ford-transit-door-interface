@@ -126,7 +126,8 @@ Using a laptop or phone connect to the Shelly access point.  It should be called
 
 Once adopted you should see the following sensors under the device:
 
-![image](https://github.com/user-attachments/assets/aefb2c9b-f73b-487b-82a6-0f716b084877)
+![image](https://github.com/user-attachments/assets/d2fe8dcb-e744-448d-ba61-721804a9b9a8)
+* You can see I've added some automations based on the sliding door state.
 
 Open and Close the four doors to ensure the state change is captured.  The reading is instant.  Press lock / unlock buttons to ensure the locks trigger accordingly.
 
