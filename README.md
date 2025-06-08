@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/6a4d9cd4-d6eb-42c7-84df-bf4d9a7fcf2f)
+![door_interface_logo](https://github.com/user-attachments/assets/d9c96205-f2f2-488a-9197-349ccfd589d8)
 
 # Ford Transit Door Interface
 
@@ -132,6 +132,8 @@ Once adopted you should see the following sensors under the device:
 Open and Close the four doors to ensure the state change is captured.  The reading is instant.  Press lock / unlock buttons to ensure the locks trigger accordingly.
 
 You're done!
+
+![image](https://github.com/user-attachments/assets/6a4d9cd4-d6eb-42c7-84df-bf4d9a7fcf2f)
 
 # Conclusion
 
