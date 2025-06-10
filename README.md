@@ -145,6 +145,10 @@ There are a number of interesting automations that can include these sensors.  S
 - Send Lock/Unlock commands from phone or smartwatch when you don't have keys on you.  Can be done with no cellular if you're nearby and on the van Wi-Fi.
 - Send Lock command as part of bedtime script
 
+## Future Ideas
+
+- See if ground can be detected on lock signal wire.  Use that and door open status to determine vehicle lock state.
+
 ### Limitations
 
 - The lock / unlock functions behavior like the buttons on the doors in the van.  It does not flash the lights on the outside nor enable the alarm.  If you want that behavior, use the FordPass app to lock/unlock.
