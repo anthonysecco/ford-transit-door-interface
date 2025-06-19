@@ -1,5 +1,4 @@
 ![door_interface_logo](https://github.com/user-attachments/assets/d9c96205-f2f2-488a-9197-349ccfd589d8)
-
 # Ford Transit Door Interface
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-donate-yellow.svg)](https://www.buymeacoffee.com/anthonysecco)
 
