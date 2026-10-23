@@ -165,6 +165,10 @@ It's possible to monitor the Transit Engine On/Off state by monitoring ground on
 
 If you have feedback or suggestions, don't hesitate to reachout.
 
+# 💖 Support
+
+If you found this project useful, consider [buying me a coffee](https://www.buymeacoffee.com/anthonysecco). ☕
+
 # AI Disclosure
 
 This project was built largely with AI coding tools (Claude). I directed the design and reviewed the changes, but most of the code and documentation was written by AI. Please review the code before relying on it, and open an issue if you find a problem.
